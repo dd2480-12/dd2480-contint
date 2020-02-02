@@ -7,4 +7,28 @@
  * in the user manual at https://docs.gradle.org/6.1.1/userguide/multi_project_builds.html
  */
 
+plugins {
+  id "com.gradle.enterprise" version "3.1.1"
+}
+
 rootProject.name = 'contint'
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+        buildFinished { result ->
+            buildScanPublished { scan -> 
+                file('build.log') << """\
+                    {
+                        "branch": "${'git rev-parse --abbrev-ref HEAD'.execute().text.trim()}",
+                        "commit": "${'git rev-parse --verify HEAD'.execute().text.trim()}",
+                        "buildDate": "${new Date().format('EEE MMM dd HH:mm:ss yyyy')}",
+                        "commitDate": "${'git --no-pager log -1 --format=%cd --date=local'.execute().text.trim()}",
+                        "url": ${scan.buildScanUri},
+                        "success": ${result.failure == null}
+                    }""".stripIndent()
+            }
+        }
+    }
+}
