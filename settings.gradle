@@ -13,24 +13,32 @@ plugins {
 
 rootProject.name = 'contint'
 
+def branch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+if (branch == 'master') {
+    def logs = new File('dist/logs')
+    if (!logs.exists()) {
+        logs.mkdir()
+    }
+}
+
 gradleEnterprise {
     buildScan {
         termsOfServiceUrl = 'https://gradle.com/terms-of-service'
         termsOfServiceAgree = 'yes'
         buildFinished { result ->
             buildScanPublished { scan -> 
-                def branch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
                 def commit = 'git rev-parse --verify HEAD'.execute().text.trim()
                 def buildDate = new Date().format('EEE MMM d HH:mm:ss yyyy')
                 def commitDate = 'git --no-pager log -1 --format=%cd --date=local'.execute().text.trim()
+                def fileName = "${branch == 'master' ? 'dist/' : '../dist/'}logs/${buildDate} ${commit}.json"
 
-                file("${buildDate} ${commit}.log") << """\
+                file(fileName) << """\
                     {
                         "branch": "${branch}",
                         "commit": "${commit}",
                         "buildDate": "${buildDate}",
                         "commitDate": "${commitDate}",
-                        "url": ${scan.buildScanUri},
+                        "url": "${scan.buildScanUri}",
                         "success": ${result.failure == null}
                     }""".stripIndent()
             }
