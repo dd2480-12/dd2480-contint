@@ -19,12 +19,17 @@ gradleEnterprise {
         termsOfServiceAgree = 'yes'
         buildFinished { result ->
             buildScanPublished { scan -> 
-                file('build.log') << """\
+                def branch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+                def commit = 'git rev-parse --verify HEAD'.execute().text.trim()
+                def buildDate = new Date().format('EEE MMM d HH:mm:ss yyyy')
+                def commitDate = 'git --no-pager log -1 --format=%cd --date=local'.execute().text.trim()
+
+                file("${buildDate} ${commit}.log") << """\
                     {
-                        "branch": "${'git rev-parse --abbrev-ref HEAD'.execute().text.trim()}",
-                        "commit": "${'git rev-parse --verify HEAD'.execute().text.trim()}",
-                        "buildDate": "${new Date().format('EEE MMM dd HH:mm:ss yyyy')}",
-                        "commitDate": "${'git --no-pager log -1 --format=%cd --date=local'.execute().text.trim()}",
+                        "branch": "${branch}",
+                        "commit": "${commit}",
+                        "buildDate": "${buildDate}",
+                        "commitDate": "${commitDate}",
                         "url": ${scan.buildScanUri},
                         "success": ${result.failure == null}
                     }""".stripIndent()
