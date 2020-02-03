@@ -14,7 +14,7 @@ plugins {
 rootProject.name = 'contint'
 
 def branch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
-if (branch == 'master') {
+if (branch == 'logging') {
     def logs = new File('dist/logs')
     if (!logs.exists()) {
         logs.mkdir()
@@ -30,7 +30,7 @@ gradleEnterprise {
                 def commit = 'git rev-parse --verify HEAD'.execute().text.trim()
                 def buildDate = new Date().format('EEE MMM d HH:mm:ss yyyy')
                 def commitDate = 'git --no-pager log -1 --format=%cd --date=local'.execute().text.trim()
-                def fileName = "${branch == 'master' ? 'dist/' : '../dist/'}logs/${buildDate} ${commit}.json"
+                def fileName = "${buildDate} ${commit}.json"
 
                 file(fileName) << """\
                     {
@@ -41,6 +41,11 @@ gradleEnterprise {
                         "url": "${scan.buildScanUri}",
                         "success": ${result.failure == null}
                     }""".stripIndent()
+                
+                copy {
+                    from fileName
+                    into "${branch == 'logging' ? 'dist/' : '../dist/'}logs/"
+                }
             }
         }
     }
