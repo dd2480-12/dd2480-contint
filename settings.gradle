@@ -32,7 +32,7 @@ gradleEnterprise {
                 def commitDate = 'git --no-pager log -1 --format=%cd --date=local'.execute().text.trim()
                 def fileName = "${buildDate} ${commit}.json"
 
-                file(fileName) << """\
+                new File('build.json') << """\
                     {
                         "branch": "${branch}",
                         "commit": "${commit}",
@@ -42,10 +42,14 @@ gradleEnterprise {
                         "success": ${result.failure == null}
                     }""".stripIndent()
                 
+                def dist = branch == 'logging' ? 'dist' : '../dist'
+
                 copy {
-                    from fileName
-                    into "${branch == 'logging' ? 'dist/' : '../dist/'}logs/"
+                    from file('build.json')
+                    into file("${dist}/logs/")
                 }
+
+                file("${dist}/logs/build.json").renameTo("${dist}/logs/${fileName}")
             }
         }
     }
