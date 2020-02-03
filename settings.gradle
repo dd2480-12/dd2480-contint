@@ -7,4 +7,50 @@
  * in the user manual at https://docs.gradle.org/6.1.1/userguide/multi_project_builds.html
  */
 
+plugins {
+  id "com.gradle.enterprise" version "3.1.1"
+}
+
 rootProject.name = 'contint'
+
+def branch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+if (branch == 'logging') {
+    def logs = new File('dist/logs')
+    if (!logs.exists()) {
+        logs.mkdir()
+    }
+}
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+        buildFinished { result ->
+            buildScanPublished { scan -> 
+                def commit = 'git rev-parse --verify HEAD'.execute().text.trim()
+                def buildDate = new Date().format('EEE MMM d HH:mm:ss yyyy')
+                def commitDate = 'git --no-pager log -1 --format=%cd --date=local'.execute().text.trim()
+                def fileName = "${buildDate} ${commit}.json"
+
+                new File('build.json') << """\
+                    {
+                        "branch": "${branch}",
+                        "commit": "${commit}",
+                        "buildDate": "${buildDate}",
+                        "commitDate": "${commitDate}",
+                        "url": "${scan.buildScanUri}",
+                        "success": ${result.failure == null}
+                    }""".stripIndent()
+                
+                def dist = branch == 'logging' ? 'dist' : '../dist'
+
+                copy {
+                    from file('build.json')
+                    into file("${dist}/logs/")
+                }
+
+                file("${dist}/logs/build.json").renameTo("${dist}/logs/${fileName}")
+            }
+        }
+    }
+}
