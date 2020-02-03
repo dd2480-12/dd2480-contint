@@ -4,11 +4,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Map;
+import java.io.File;
+
 import java.io.IOException;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.eclipse.jgit.api.Git;
+
+import com.google.common.io.CharStreams;
+import com.google.gson.Gson;
+
 
 /**
  * Skeleton of a ContinuousIntegrationServer which acts as webhook See the Jetty
@@ -20,9 +31,30 @@ public class ContinuousIntegrationServer extends AbstractHandler {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
-
+        
         System.out.println(target);
+        
+        String body = CharStreams.toString(request.getReader());
+        
+        Gson gson = new Gson();
+        Payload payload = gson.fromJson(body, Payload.class);
 
+        Path tmp = Files.createTempDirectory("tmp_git");
+        try {
+			Git.cloneRepository()
+					  .setURI("https://github.com/dd2480-12/dd2480-contint.git")
+					  .setDirectory(new File(tmp.toString()))
+					  .setBranchesToClone(Arrays.asList(payload.ref))
+					  .setBranch(payload.ref)
+					  .call();
+			
+			String command = tmp.toString() + "gradlew" + " " + "build";
+			Runtime.getRuntime().exec(command);
+		} catch (Exception e) {
+			System.out.println("Failed in compile stage"); 
+		}
+
+        Files.delete(tmp);
         // here you do all the continuous integration tasks
         // for example
         // 1st clone your repository
