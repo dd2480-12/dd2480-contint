@@ -14,7 +14,7 @@ plugins {
 rootProject.name = 'contint'
 
 def branch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
-if (branch == 'logging') {
+if (branch == 'master') {
     def logs = new File('dist/logs')
     if (!logs.exists()) {
         logs.mkdir()
@@ -42,7 +42,7 @@ gradleEnterprise {
                         "success": ${result.failure == null}
                     }""".stripIndent()
                 
-                def dist = branch == 'logging' ? 'dist' : '../dist'
+                def dist = branch == 'master' ? 'dist' : '../dist'
 
                 copy {
                     from file('build.json')
