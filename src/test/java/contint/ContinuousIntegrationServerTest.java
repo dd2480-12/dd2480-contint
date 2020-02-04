@@ -8,4 +8,9 @@ public class ContinuousIntegrationServerTest {
     public void test1(){
         assertTrue(true);
     }
+
+    @Test
+    public void test2(){
+        assertTrue(true);
+    }
 }

@@ -42,33 +42,52 @@ public class ContinuousIntegrationServer extends AbstractHandler {
         Gson gson = new Gson();
         Payload payload = gson.fromJson(body, Payload.class);
 
-        Path tmp = Files.createTempDirectory("tmp_git");
+        Path tmp_path = Files.createTempDirectory("tmp_git");
+
         try {
             Git.cloneRepository()
                     .setURI("https://github.com/dd2480-12/dd2480-contint.git")
-                    .setDirectory(new File(tmp.toString()))
+                    .setDirectory(new File(tmp_path.toString()))
                     .setBranchesToClone(Arrays.asList(payload.ref))
                     .setBranch(payload.ref)
                     .call();
 
-            String command = tmp.toString() + "gradlew" + " " + "build";
+            File file_Gradle = new File(tmp_path.toString()+"/gradlew.bat");
+            boolean exists = file_Gradle.exists();
+            if(exists) {
+                file_Gradle.setExecutable(true);
+                file_Gradle.setReadable(true);
+                file_Gradle.setWritable(true);
+            }else{
+                System.out.println("File not found");
+            }
+
+            String command = tmp_path.toString() +"/gradlew" + " " + "build";
+            System.out.print("Command:\n"+command);
+
             Process p = Runtime.getRuntime().exec(command);
-            response.getWriter().println("Execute completely!");
             String line;
             BufferedReader input =
                     new BufferedReader
                             (new InputStreamReader(p.getInputStream()));
+            response.getWriter().print("Result of compilation and testing: ");
             while ((line = input.readLine()) != null) {
-                response.getWriter().println(line);
+                //response.getWriter().println(line);
+                if(line.contains("BUILD SUCCESSFUL")){
+                    response.getWriter().println(line);
+                    break;
+                }
+                if(line.contains("test completed,")||line.contains("tests completed,")){
+                  response.getWriter().println(line);
+                  break;
+                }
             }
             input.close();
-
-
         } catch (Exception e) {
             System.out.println("Failed in compile stage");
+            e.printStackTrace();
         }
-
-        Files.delete(tmp);
+        //Files.delete(tmp_path);
         response.getWriter().println("CI job done!");
     }
 
