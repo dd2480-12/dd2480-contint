@@ -40,8 +40,8 @@ class Repo(owner: String = "dd2480-12", repoName: String = "dd2480-contint") : R
 
 /**
  * Interface for wrapper classes for an oauth2 token. If the token is contained within an environment variable,
- * wrap the name of the variable in an Environment class. If the token is to be used in clear text,
- * wrap the token in a ClearText class.
+ * wrap the name of the variable in a TokenEnvironmentVariable class. If the token is contained within a file,
+ * wrap the name of the file in a TokenFile class.
  */
 interface APITokenProvider {
     fun getOAuth2Token(): String?
