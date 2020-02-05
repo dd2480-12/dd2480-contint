@@ -11,11 +11,17 @@ import java.io.IOException
  * Represents a commit status that is yet to be sent. Used by CINotifier.
  */
 class CStatus(
-        state: Boolean,
+        val state: CState,
         val commitSHA: String,
         val logURL: String?,
         val description: String?) {
-    val state = if (state) CState.SUCCESS else CState.ERROR
+
+    constructor(response : Response, description: String?) : this(
+            if (response.success) CState.SUCCESS else CState.ERROR,
+            response.commit,
+            response.url,
+            description)
+
 
     enum class CState {
         ERROR, FAILURE, PENDING, SUCCESS;

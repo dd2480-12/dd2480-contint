@@ -88,7 +88,7 @@ public class ContinuousIntegrationServer extends AbstractHandler {
             JsonReader reader = new JsonReader(new FileReader(file_json));
             Response data = gson2.fromJson(reader, Response.class);
             CINotifier ciNotifier = new CINotifier(new Repo());
-            CStatus cStatus = new CStatus(data.success, data.commit, data.url, "");
+            CStatus cStatus = new CStatus(data, "");
             ciNotifier.postCommitStatus(cStatus, new TokenFile("github.token"));
 
         } catch (Exception e) {
