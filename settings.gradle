@@ -32,7 +32,8 @@ gradleEnterprise {
                 def commitDate = 'git --no-pager log -1 --format=%cd --date=local'.execute().text.trim()
                 def fileName = "${buildDate} ${commit}.json"
 
-                new File('build.json') << """\
+                file('build.json').newWriter().withWriter { w ->
+                    w << """\
                     {
                         "branch": "${branch}",
                         "commit": "${commit}",
@@ -41,6 +42,7 @@ gradleEnterprise {
                         "url": "${scan.buildScanUri}",
                         "success": ${result.failure == null}
                     }""".stripIndent()
+                } 
                 
                 def dist = branch == 'master' ? 'dist' : '../dist'
 
