@@ -22,13 +22,30 @@ import java.util.Arrays;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;*/
 
-
 /**
- * Skeleton of a ContinuousIntegrationServer which acts as webhook See the Jetty
- * documentation for API documentation of those classes.
+ * Represents the server handler to a Server object.
  */
 public class ContinuousIntegrationServer extends AbstractHandler {
-
+    /**
+     * The handler of the CI server. The handler will clone the branch committed to,
+     * build and test using Gradle, and then send the results to Github. A Github
+     * auth token is required to be set in an enviroment variable GITHUB_TOKEN.
+     * 
+     * @param target      The target of the request - either a URI or a name.
+     * @param baseRequest The original unwrapped request object.
+     * @param request     The request either as the {@link Request} object or a
+     *                    wrapper of that request. The
+     *                    <code>{@link HttpConnection#getCurrentConnection()}.{@link HttpConnection#getHttpChannel() getHttpChannel()}.{@link HttpChannel#getRequest() getRequest()}</code>
+     *                    method can be used access the Request object if required.
+     * @param response    The response as the {@link Response} object or a wrapper
+     *                    of that request. The
+     *                    <code>{@link HttpConnection#getCurrentConnection()}.{@link HttpConnection#getHttpChannel() getHttpChannel()}.{@link HttpChannel#getResponse() getResponse()}</code>
+     *                    method can be used access the Response object if required.
+     * @throws IOException      if unable to handle the request or response
+     *                          processing
+     * @throws ServletException if unable to handle the request or response due to
+     *                          underlying servlet issue
+     */
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         response.setContentType("text/html;charset=utf-8");
@@ -45,12 +62,9 @@ public class ContinuousIntegrationServer extends AbstractHandler {
         Path tmp_path = Files.createTempDirectory("tmp_git");
 
         try {
-            Git.cloneRepository()
-                    .setURI("https://github.com/dd2480-12/dd2480-contint.git")
-                    .setDirectory(new File(tmp_path.toString()))
-                    .setBranchesToClone(Arrays.asList(payload.ref))
-                    .setBranch(payload.ref)
-                    .call();
+            Git.cloneRepository().setURI("https://github.com/dd2480-12/dd2480-contint.git")
+                    .setDirectory(new File(tmp_path.toString())).setBranchesToClone(Arrays.asList(payload.ref))
+                    .setBranch(payload.ref).call();
 
             File file_Gradle = new File(tmp_path.toString() + "/gradlew.bat");
             boolean exists = file_Gradle.exists();
@@ -62,7 +76,7 @@ public class ContinuousIntegrationServer extends AbstractHandler {
                 System.out.println("File not found");
             }
 
-            String[] cmd = {"/bin/sh", "-c", "cd " + tmp_path.toString() + "; gradle build --scan;"};
+            String[] cmd = { "/bin/sh", "-c", "cd " + tmp_path.toString() + "; gradle build --scan;" };
             Process p = Runtime.getRuntime().exec(cmd);
             p.waitFor();
             Integer result = p.exitValue();
@@ -81,7 +95,7 @@ public class ContinuousIntegrationServer extends AbstractHandler {
             System.out.println("Failed in compile stage");
             e.printStackTrace();
         }
-        //Files.delete(tmp_path);
+        // Files.delete(tmp_path);
         response.getWriter().println("CI job done!");
     }
 
