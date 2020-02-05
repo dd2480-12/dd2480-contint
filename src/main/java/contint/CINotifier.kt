@@ -9,21 +9,23 @@ import java.io.IOException
 /**
  * Represents a commit status that is yet to be sent. Used by CINotifier.
  */
-data class CStatus(
-        val state       : CState,
-        val commitSHA   : String,
-        val logURL      : String?,
-        val description : String?)
-{
+class CStatus(
+        state: Boolean,
+        val commitSHA: String,
+        val logURL: String?,
+        val description: String?) {
+    val state = if (state) CState.SUCCESS else CState.ERROR
+
     enum class CState {
         ERROR, FAILURE, PENDING, SUCCESS;
+
         override fun toString() = super.toString().toLowerCase()
     }
 
     /**
      * @return The CommitStatus object that corresponds to this object
      */
-    fun toCommitStatus() : CommitStatus = CommitStatus()
+    fun toCommitStatus(): CommitStatus = CommitStatus()
             .setState(state.toString())
             .setTargetUrl(logURL)
             .setDescription(description)
@@ -33,7 +35,7 @@ data class CStatus(
  *  Wrapper for RepositoryId class. The only function of this class is to enable default values for name
  *  and owner.
  */
-class Repo(owner : String = "dd2480-12", repoName : String = "dd2480-contint") : RepositoryId(owner, repoName)
+class Repo(owner: String = "dd2480-12", repoName: String = "dd2480-contint") : RepositoryId(owner, repoName)
 
 /**
  * Interface for wrapper classes for an oauth2 token. If the token is contained within an environment variable,
@@ -41,20 +43,20 @@ class Repo(owner : String = "dd2480-12", repoName : String = "dd2480-contint") :
  * wrap the token in a ClearText class.
  */
 interface APITokenProvider {
-    fun getOAuth2Token() : String?
+    fun getOAuth2Token(): String?
 }
 
 /**
  * Holds the name of an environment variable which holds an oauth2 token
  */
-data class TokenEnvironmentVariable(private val varName : String) : APITokenProvider {
+data class TokenEnvironmentVariable(private val varName: String) : APITokenProvider {
     override fun getOAuth2Token(): String? = System.getenv(varName)
 }
 
 /**
  * Holds an oauth2 token in clear text
  */
-data class TokenClearText(private val token : String) : APITokenProvider {
+data class TokenClearText(private val token: String) : APITokenProvider {
     override fun getOAuth2Token(): String = token
 }
 
