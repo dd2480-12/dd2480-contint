@@ -15,7 +15,7 @@ class CStatus(
         val state: CState,
         val commitSHA: String,
         val logURL: String?,
-        var description: String?) {
+        val description: String?) {
 
     constructor(response : Response, description: String?) : this(
             if (response.success) CState.SUCCESS else CState.ERROR,
