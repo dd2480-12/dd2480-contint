@@ -30,7 +30,7 @@ public class ContinuousIntegrationServer extends AbstractHandler {
     /**
      * The handler of the CI server. The handler will clone the branch committed to,
      * build and test using Gradle, and then send the results to Github. A Github
-     * auth token is required to be set in an enviroment variable GITHUB_TOKEN.
+     * auth token is required to be set in a file called `github.token`.
      * 
      * @param target      The target of the request - either a URI or a name.
      * @param baseRequest The original unwrapped request object.
