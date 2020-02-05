@@ -56,11 +56,20 @@ Once there is a new commit on remote repository, webhook is triggered and name o
 
 
 ## Notification
-
 ### Implementation
+
+Github is connected and authenicated by using a token. The status and URL of the build will be sent to Github once there is a new commit. The status is either success or failed. 
 
 ### Unit-tested
 
-## Extra Feature
-### Build list URL
+## Extra Feature, Log history website
 
+To start the Node server, run the following commands.
+
+```
+cd dist
+node index.js
+```
+
+### Build list URL
+The website will now be accessible at [localhost:3000](localhost:3000).
