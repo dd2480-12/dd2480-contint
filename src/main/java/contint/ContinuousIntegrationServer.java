@@ -89,8 +89,7 @@ public class ContinuousIntegrationServer extends AbstractHandler {
             Response data = gson2.fromJson(reader, Response.class);
             CINotifier ciNotifier = new CINotifier(new Repo());
             CStatus cStatus = new CStatus(data.success, data.commit, data.url, "");
-            String token = "231b454fcd275e3cfd00014de0409577b21a4082";
-            ciNotifier.postCommitStatus(cStatus, new TokenClearText(token));
+            ciNotifier.postCommitStatus(cStatus, new TokenFile("github.token"));
 
         } catch (Exception e) {
             System.out.println("Failed in compile stage");

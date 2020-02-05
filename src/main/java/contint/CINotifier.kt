@@ -4,6 +4,7 @@ import org.eclipse.egit.github.core.CommitStatus
 import org.eclipse.egit.github.core.RepositoryId
 import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.CommitService
+import java.io.File
 import java.io.IOException
 
 /**
@@ -54,11 +55,12 @@ data class TokenEnvironmentVariable(private val varName: String) : APITokenProvi
 }
 
 /**
- * Holds an oauth2 token in clear text
+ * Holds the path to an file containing an oauth2 token
  */
-data class TokenClearText(private val token: String) : APITokenProvider {
-    override fun getOAuth2Token(): String = token
+class TokenFile(private val filePath : String) : APITokenProvider {
+    override fun getOAuth2Token(): String? = File(filePath).bufferedReader().use { it.readText() }
 }
+
 
 /**
  * Posts commit statuses to the given repository on GitHub
