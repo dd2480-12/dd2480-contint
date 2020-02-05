@@ -10,10 +10,8 @@ import org.eclipse.jgit.api.Git;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -62,10 +60,11 @@ public class ContinuousIntegrationServer extends AbstractHandler {
                 System.out.println("File not found");
             }
 
-            String command = "cd " + tmp_path.toString() + " && gradle build";
-            System.out.print("Command:\n" + command);
-
-            Process p = Runtime.getRuntime().exec(command);
+            String[] cmd = { "/bin/sh", "-c", "cd " + tmp_path.toString() + "; gradle build --scan;" };
+            Process p = Runtime.getRuntime().exec(cmd);
+            p.waitFor();
+            Integer result = p.exitValue();
+            response.getWriter().println("Process result: " + result);
 
         } catch (Exception e) {
             System.out.println("Failed in compile stage");
