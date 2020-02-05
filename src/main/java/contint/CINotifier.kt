@@ -5,6 +5,7 @@ import org.eclipse.egit.github.core.RepositoryId
 import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.CommitService
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.IOException
 
 /**
@@ -14,7 +15,7 @@ class CStatus(
         val state: CState,
         val commitSHA: String,
         val logURL: String?,
-        val description: String?) {
+        var description: String?) {
 
     constructor(response : Response, description: String?) : this(
             if (response.success) CState.SUCCESS else CState.ERROR,
@@ -64,7 +65,11 @@ data class TokenEnvironmentVariable(private val varName: String) : APITokenProvi
  * Holds the path to an file containing an oauth2 token
  */
 class TokenFile(private val filePath : String) : APITokenProvider {
-    override fun getOAuth2Token(): String? = File(filePath).bufferedReader().use { it.readText() }
+    override fun getOAuth2Token(): String? = try {
+        File(filePath).bufferedReader().use { it.readText() }
+    } catch  (e : FileNotFoundException) {
+        null
+    }
 }
 
 
