@@ -5,5 +5,9 @@ package contint;
  */
 public class Payload {
 	String ref;
+	Repository repository;
+	
+	class Repository {
+		String clone_url;
+	}
 }
-

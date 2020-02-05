@@ -63,7 +63,7 @@ public class ContinuousIntegrationServer extends AbstractHandler {
         Path tmp_path = Files.createTempDirectory("tmp_git");
 
         try {
-            Git.cloneRepository().setURI("https://github.com/dd2480-12/dd2480-contint.git")
+            Git.cloneRepository().setURI(payload.repository.clone_url)
                     .setDirectory(new File(tmp_path.toString())).setBranchesToClone(Arrays.asList(payload.ref))
                     .setBranch(payload.ref).call();
 
