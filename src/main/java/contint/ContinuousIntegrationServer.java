@@ -3,6 +3,7 @@ package contint;
 import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -81,7 +82,8 @@ public class ContinuousIntegrationServer extends AbstractHandler {
             System.out.println("Failed in compile stage");
             e.printStackTrace();
         }
-        //Files.delete(tmp_path);
+
+        FileUtils.deleteDirectory(new File(tmp_path.toString()));
         response.getWriter().println("CI job done!");
     }
 
