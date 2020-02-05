@@ -2,6 +2,7 @@ package contint;
 
 import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -11,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,8 +39,8 @@ public class ContinuousIntegrationServer extends AbstractHandler {
 
         String body = CharStreams.toString(request.getReader());
 
-        Gson gson = new Gson();
-        Payload payload = gson.fromJson(body, Payload.class);
+        Gson gson1 = new Gson();
+        Payload payload = gson1.fromJson(body, Payload.class);
 
         Path tmp_path = Files.createTempDirectory("tmp_git");
 
@@ -60,11 +62,20 @@ public class ContinuousIntegrationServer extends AbstractHandler {
                 System.out.println("File not found");
             }
 
-            String[] cmd = { "/bin/sh", "-c", "cd " + tmp_path.toString() + "; gradle build --scan;" };
+            String[] cmd = {"/bin/sh", "-c", "cd " + tmp_path.toString() + "; gradle build --scan;"};
             Process p = Runtime.getRuntime().exec(cmd);
             p.waitFor();
             Integer result = p.exitValue();
             response.getWriter().println("Process result: " + result);
+
+            File file_json = new File(tmp_path.toString() + "/build.json");
+            Gson gson2 = new Gson();
+            JsonReader reader = new JsonReader(new FileReader(file_json));
+            Response data = gson2.fromJson(reader, Response.class);
+            CINotifier ciNotifier = new CINotifier(new Repo());
+            CStatus cStatus = new CStatus(data.success, data.commit, data.url, "");
+            String token = "231b454fcd275e3cfd00014de0409577b21a4082";
+            ciNotifier.postCommitStatus(cStatus, new TokenClearText(token));
 
         } catch (Exception e) {
             System.out.println("Failed in compile stage");
