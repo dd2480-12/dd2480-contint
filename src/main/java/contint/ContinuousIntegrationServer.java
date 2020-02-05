@@ -52,37 +52,21 @@ public class ContinuousIntegrationServer extends AbstractHandler {
                     .setBranch(payload.ref)
                     .call();
 
-            File file_Gradle = new File(tmp_path.toString()+"/gradlew.bat");
+            File file_Gradle = new File(tmp_path.toString() + "/gradlew.bat");
             boolean exists = file_Gradle.exists();
-            if(exists) {
+            if (exists) {
                 file_Gradle.setExecutable(true);
                 file_Gradle.setReadable(true);
                 file_Gradle.setWritable(true);
-            }else{
+            } else {
                 System.out.println("File not found");
             }
 
-            String command = tmp_path.toString() +"/gradlew" + " " + "build";
-            System.out.print("Command:\n"+command);
+            String command = "cd " + tmp_path.toString() + " && gradle build";
+            System.out.print("Command:\n" + command);
 
             Process p = Runtime.getRuntime().exec(command);
-            String line;
-            BufferedReader input =
-                    new BufferedReader
-                            (new InputStreamReader(p.getInputStream()));
-            response.getWriter().print("Result of compilation and testing: ");
-            while ((line = input.readLine()) != null) {
-                //response.getWriter().println(line);
-                if(line.contains("BUILD SUCCESSFUL")){
-                    response.getWriter().println(line);
-                    break;
-                }
-                if(line.contains("test completed,")||line.contains("tests completed,")){
-                  response.getWriter().println(line);
-                  break;
-                }
-            }
-            input.close();
+
         } catch (Exception e) {
             System.out.println("Failed in compile stage");
             e.printStackTrace();
