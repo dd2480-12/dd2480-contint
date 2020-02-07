@@ -41,4 +41,9 @@ class CStatusTest {
         assertEquals(cs4.state, "failure")
 
     }
+
+    @Test
+    fun assess() {
+        assertTrue(false)
+    }
 }
