@@ -1,25 +1,28 @@
+This is a CI server, aimed at making sure a commit passes all tests before you merge with master!
+
 
 ## Statement of contributions
 
-## Importing Project to IDE
+### Alex Diaz
 
-### IntelliJ
-1. Start IntelliJ and close any open projects (`File > Close project`). 
-2. From the Welcome screen, click `Import Project` and navigate to this repository, select its root and press OK. 
-3. Select `Import project from external model` and select `Maven`. 
-4. Check `Import Maven projects automatically` and click Next.
-5. Select the project _DD2480-Group12-A1:1.0_ and click Next. 
-6. Select SDK, click Next.
-7. Optionally change naming/location,  click Finish. 
+Build log website server, creating build logs, documentation
 
-### Eclipse 
-1. Go to `File > Import...`
-2. Select `Maven > Existing Maven Projects`
-3. Navigate to this repository, select its root, check the project (/pom.xml) and click Finish
+### Dingli Mao
+
+README, logic for GitHandler
+
+### Jesper Lundholm
+
+Mock tests, refactor CIServer, implement Notifier
+
+### Joar Ekelund
+
+Part of the inital CI server, payload class, logic for githandler
+
 
 ## Run the program
 
- Clone the repository
+Clone the repository
 
 ```
 git clone https://github.com/dd2480-12/dd2480-contint.git 
@@ -28,12 +31,12 @@ Download & setup ngrok
 ```
 https://ngrok.com/download
 ```
-Run continuous integration server
+Run continuous integration server in the root folder
 ```
 gradle build
 gradle run
 ```
-Run ngrok  and make CI server visible on the internet 
+Run ngrok and make CI server visible on the internet 
  
 ```
 ./ngrok http 8080
@@ -42,7 +45,7 @@ Run ngrok  and make CI server visible on the internet
 We configure our Github repository:
 
 -   go to  `Settings >> Webhooks`, click on  `Add webhook`.
--   paste the forwarding URL (eg  `http://8929b010.ngrok.io`) in field  `Payload URL`) and send click on  `Add webhook`. In the simplest setting, nothing more is required.
+-   paste the forwarding URL from ngrok (eg  `http://8929b010.ngrok.io`) in field  `Payload URL`) and send click on  `Add webhook`. In the simplest setting, nothing more is required.
 
 To test that everything works:
 - make a commit in branch Assessment
@@ -52,15 +55,18 @@ To test that everything works:
 ### Implementation
 Once there is a new commit on remote repository, webhook is triggered and name of newly committed repository is passed as a value to CI server. Before compiling it, the repository is cloned to local device using Jgit API. The repository is stored in a directory of which the name is generated randomly.  The cloned repository will be executed by ``` gradle build ``` and then the result is stored in **build.json**. The result of the test, commit SHA and url are included in **build.json**.
 
-### Unit-tested
+### Unit testing
 
+Compilation and testing are unit tested with Mockito. We create a mock request object with a mock payload json. We create a mock status and return values, and assert that each value is correct after processing. If there are no errors, that means the program flow has executed correctly.
 
 ## Notification
 ### Implementation
 
 Github is connected and authenicated by using a token. The status and URL of the build will be sent to Github once there is a new commit. The status is either success or failed. 
 
-### Unit-tested
+### Unit testing
+
+Notifications are tested by mocking a status object and making it into a commit status object. We assert that the values of the commit status object correspondes to the values of the status object.
 
 ## Extra Feature, Log history website
 
