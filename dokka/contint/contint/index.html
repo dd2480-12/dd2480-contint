@@ -1,0 +1,153 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>contint - contint</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">contint</a>&nbsp;/&nbsp;<a href="./index.html">contint</a><br/>
+<br/>
+<h2>Package contint</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-a-p-i-token-provider/index.html">APITokenProvider</a></h4>
+</td>
+<td>
+<p>Interface for wrapper classes for an oauth2 token. If the token is contained within an environment variable,
+wrap the name of the variable in a TokenEnvironmentVariable class. If the token is contained within a file,
+wrap the File in a TokenFile class.</p>
+<code><span class="keyword">interface </span><span class="identifier">APITokenProvider</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-i-handlers/index.html">CIHandlers</a></h4>
+</td>
+<td>
+<p>Holds the four handlers needed by the CIServer to handle side effects.</p>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">CIHandlers</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-i-server/index.html">CIServer</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">CIServer</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AbstractHandler</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-commit-status-generator/index.html">CommitStatusGenerator</a></h4>
+</td>
+<td>
+<p>Generates CStatus from a file containing the output of gradle build --scan</p>
+<code><span class="keyword">class </span><span class="identifier">CommitStatusGenerator</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-commit-status-generator-interface/index.html"><span class="identifier">CommitStatusGeneratorInterface</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-commit-status-generator-interface/index.html">CommitStatusGeneratorInterface</a></h4>
+</td>
+<td>
+<p>Interface for handlers responsible for generating CStatus objects from JSON in</p>
+<code><span class="keyword">interface </span><span class="identifier">CommitStatusGeneratorInterface</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-s-notifier/index.html">CSNotifier</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">CSNotifier</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-c-s-notifier-interface/index.html"><span class="identifier">CSNotifierInterface</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-s-notifier-interface/index.html">CSNotifierInterface</a></h4>
+</td>
+<td>
+<p>Interface for handlers responsible for sending a POST request with a commit status</p>
+<code><span class="keyword">interface </span><span class="identifier">CSNotifierInterface</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-c-status/index.html">CStatus</a></h4>
+</td>
+<td>
+<p>Represents a commit status that is yet to be sent. Used by CSNotifier.</p>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">CStatus</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-git-handler/index.html">GitHandler</a></h4>
+</td>
+<td>
+<p>Handles cloning of git repos into a temporary directory</p>
+<code><span class="keyword">class </span><span class="identifier">GitHandler</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-git-handler-interface/index.html"><span class="identifier">GitHandlerInterface</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-git-handler-interface/index.html">GitHandlerInterface</a></h4>
+</td>
+<td>
+<p>Interface for handlers responsible for cloning repositories into temporary folders.</p>
+<code><span class="keyword">interface </span><span class="identifier">GitHandlerInterface</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-gradle-handler/index.html">GradleHandler</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">GradleHandler</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-gradle-handler-interface/index.html"><span class="identifier">GradleHandlerInterface</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-gradle-handler-interface/index.html">GradleHandlerInterface</a></h4>
+</td>
+<td>
+<p>Interface for handlers responsible for running gradle tasks.</p>
+<code><span class="keyword">interface </span><span class="identifier">GradleHandlerInterface</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-payload/index.html">Payload</a></h4>
+</td>
+<td>
+<p>A class to represent relevant data from payload given by the request from the server as JSON.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Payload</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-repo/index.html">Repo</a></h4>
+</td>
+<td>
+<p>Wrapper for RepositoryId class. The only function of this class is to enable default values for name
+and owner.</p>
+<code><span class="keyword">class </span><span class="identifier">Repo</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">RepositoryId</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-response/index.html">Response</a></h4>
+</td>
+<td>
+<p>A class to represent relevant data from the build log after compiling and testing.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Response</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-token-environment-variable/index.html">TokenEnvironmentVariable</a></h4>
+</td>
+<td>
+<p>Holds the name of an environment variable which holds an oauth2 token</p>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">TokenEnvironmentVariable</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-a-p-i-token-provider/index.html"><span class="identifier">APITokenProvider</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-token-file/index.html">TokenFile</a></h4>
+</td>
+<td>
+<p>Holds the file containing an oauth2 token</p>
+<code><span class="keyword">class </span><span class="identifier">TokenFile</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-a-p-i-token-provider/index.html"><span class="identifier">APITokenProvider</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>GitHandlerInterface - contint</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">contint</a>&nbsp;/&nbsp;<a href="../index.html">contint</a>&nbsp;/&nbsp;<a href="./index.html">GitHandlerInterface</a><br/>
+<br/>
+<h1>GitHandlerInterface</h1>
+<code><span class="keyword">interface </span><span class="identifier">GitHandlerInterface</span></code>
+<p>Interface for handlers responsible for cloning repositories into temporary folders.</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="clone-repo-to-tmp.html">cloneRepoToTmp</a></h4>
+</td>
+<td>
+<p>Clone a remote repo to a local temporary folder</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">cloneRepoToTmp</span><span class="symbol">(</span><span class="identifier" id="contint.GitHandlerInterface$cloneRepoToTmp(kotlin.String, kotlin.String)/uri">uri</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="contint.GitHandlerInterface$cloneRepoToTmp(kotlin.String, kotlin.String)/branch">branch</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="delete-temp.html">deleteTemp</a></h4>
+</td>
+<td>
+<p>Delete the temporary folder</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">deleteTemp</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../-git-handler/index.html">GitHandler</a></h4>
+</td>
+<td>
+<p>Handles cloning of git repos into a temporary directory</p>
+<code><span class="keyword">class </span><span class="identifier">GitHandler</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">GitHandlerInterface</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

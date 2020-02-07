@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CSNotifierInterface - contint</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">contint</a>&nbsp;/&nbsp;<a href="../index.html">contint</a>&nbsp;/&nbsp;<a href="./index.html">CSNotifierInterface</a><br/>
+<br/>
+<h1>CSNotifierInterface</h1>
+<code><span class="keyword">interface </span><span class="identifier">CSNotifierInterface</span></code>
+<p>Interface for handlers responsible for sending a POST request with a commit status</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="post-commit-status.html">postCommitStatus</a></h4>
+</td>
+<td>
+<p>Post a commit status through the GitHub API. Requires an oauth2 token.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">postCommitStatus</span><span class="symbol">(</span><span class="identifier" id="contint.CSNotifierInterface$postCommitStatus(contint.CStatus, contint.APITokenProvider)/cs">cs</span><span class="symbol">:</span>&nbsp;<a href="../-c-status/index.html"><span class="identifier">CStatus</span></a><span class="symbol">, </span><span class="identifier" id="contint.CSNotifierInterface$postCommitStatus(contint.CStatus, contint.APITokenProvider)/tokenProvider">tokenProvider</span><span class="symbol">:</span>&nbsp;<a href="../-a-p-i-token-provider/index.html"><span class="identifier">APITokenProvider</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../-c-s-notifier/index.html">CSNotifier</a></h4>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">CSNotifier</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">CSNotifierInterface</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

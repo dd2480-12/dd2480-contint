@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CIServer.handle - contint</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">contint</a>&nbsp;/&nbsp;<a href="../index.html">contint</a>&nbsp;/&nbsp;<a href="index.html">CIServer</a>&nbsp;/&nbsp;<a href="./handle.html">handle</a><br/>
+<br/>
+<h1>handle</h1>
+<a name="contint.CIServer$handle(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)"></a>
+<code><span class="keyword">fun </span><span class="identifier">handle</span><span class="symbol">(</span><span class="identifier" id="contint.CIServer$handle(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)/target">target</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="contint.CIServer$handle(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)/baseRequest">baseRequest</span><span class="symbol">:</span>&nbsp;<span class="identifier">Request</span><span class="symbol">, </span><span class="identifier" id="contint.CIServer$handle(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)/request">request</span><span class="symbol">:</span>&nbsp;<span class="identifier">HttpServletRequest</span><span class="symbol">, </span><span class="identifier" id="contint.CIServer$handle(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)/response">response</span><span class="symbol">:</span>&nbsp;<span class="identifier">HttpServletResponse</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>The handler of the CI server. The handler will clone the branch committed to,
+build and test using Gradle, and then send the results to Github. A Github
+auth token is required to be set in a file called <code>github.token</code>.</p>
+<h3>Parameters</h3>
+<p><a name="target"></a>
+<code>target</code> - The target of the request - either a URI or a name.</p>
+<p><a name="baseRequest"></a>
+<code>baseRequest</code> - The original unwrapped request object.</p>
+<p><a name="request"></a>
+<code>request</code> - The request either as the Request object or a wrapper of
+that request. The
+HttpConnection.getCurrentConnection().getHttpChannel().getRequest()
+method can be used access the Request object if required.</p>
+<p><a name="response"></a>
+<code>response</code> - The response as the Response object or a wrapper of that
+request. The
+HttpConnection.getCurrentConnection().getHttpChannel().getResponse()
+method can be used access the Response object if required.</p>
+<h3>Exceptions</h3>
+<p><a name="IOException"></a>
+<code>IOException</code> - if unable to handle the request or response
+processing</p>
+<p><a name="ServletException"></a>
+<code>ServletException</code> - if unable to handle the request or response due to
+underlying servlet issue</p>
+</BODY>
+</HTML>

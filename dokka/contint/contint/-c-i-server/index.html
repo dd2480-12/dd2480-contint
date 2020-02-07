@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CIServer - contint</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">contint</a>&nbsp;/&nbsp;<a href="../index.html">contint</a>&nbsp;/&nbsp;<a href="./index.html">CIServer</a><br/>
+<br/>
+<h1>CIServer</h1>
+<code><span class="keyword">class </span><span class="identifier">CIServer</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AbstractHandler</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<code><span class="identifier">CIServer</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="handle.html">handle</a></h4>
+</td>
+<td>
+<p>The handler of the CI server. The handler will clone the branch committed to,
+build and test using Gradle, and then send the results to Github. A Github
+auth token is required to be set in a file called <code>github.token</code>.</p>
+<code><span class="keyword">fun </span><span class="identifier">handle</span><span class="symbol">(</span><span class="identifier" id="contint.CIServer$handle(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)/target">target</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="contint.CIServer$handle(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)/baseRequest">baseRequest</span><span class="symbol">:</span>&nbsp;<span class="identifier">Request</span><span class="symbol">, </span><span class="identifier" id="contint.CIServer$handle(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)/request">request</span><span class="symbol">:</span>&nbsp;<span class="identifier">HttpServletRequest</span><span class="symbol">, </span><span class="identifier" id="contint.CIServer$handle(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)/response">response</span><span class="symbol">:</span>&nbsp;<span class="identifier">HttpServletResponse</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="handle-with.html">handleWith</a></h4>
+</td>
+<td>
+<p>Handle the request with the provided handlers that control the interaction with Git and Gradle.
+See handle.</p>
+<code><span class="keyword">fun </span><span class="identifier">handleWith</span><span class="symbol">(</span><span class="identifier" id="contint.CIServer$handleWith(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, contint.CIHandlers, contint.APITokenProvider)/target">target</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="contint.CIServer$handleWith(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, contint.CIHandlers, contint.APITokenProvider)/baseRequest">baseRequest</span><span class="symbol">:</span>&nbsp;<span class="identifier">Request</span><span class="symbol">, </span><span class="identifier" id="contint.CIServer$handleWith(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, contint.CIHandlers, contint.APITokenProvider)/request">request</span><span class="symbol">:</span>&nbsp;<span class="identifier">HttpServletRequest</span><span class="symbol">, </span><span class="identifier" id="contint.CIServer$handleWith(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, contint.CIHandlers, contint.APITokenProvider)/response">response</span><span class="symbol">:</span>&nbsp;<span class="identifier">HttpServletResponse</span><span class="symbol">, </span><span class="identifier" id="contint.CIServer$handleWith(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, contint.CIHandlers, contint.APITokenProvider)/handlers">handlers</span><span class="symbol">:</span>&nbsp;<a href="../-c-i-handlers/index.html"><span class="identifier">CIHandlers</span></a><span class="symbol">, </span><span class="identifier" id="contint.CIServer$handleWith(kotlin.String, org.eclipse.jetty.server.Request, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, contint.CIHandlers, contint.APITokenProvider)/token">token</span><span class="symbol">:</span>&nbsp;<a href="../-a-p-i-token-provider/index.html"><span class="identifier">APITokenProvider</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="main.html">main</a></h4>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">main</span><span class="symbol">(</span><span class="identifier" id="contint.CIServer.Companion$main(kotlin.Array((kotlin.String)))/args">args</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html"><span class="identifier">Array</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

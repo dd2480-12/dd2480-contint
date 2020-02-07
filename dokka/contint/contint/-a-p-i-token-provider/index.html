@@ -1,0 +1,49 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>APITokenProvider - contint</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">contint</a>&nbsp;/&nbsp;<a href="../index.html">contint</a>&nbsp;/&nbsp;<a href="./index.html">APITokenProvider</a><br/>
+<br/>
+<h1>APITokenProvider</h1>
+<code><span class="keyword">interface </span><span class="identifier">APITokenProvider</span></code>
+<p>Interface for wrapper classes for an oauth2 token. If the token is contained within an environment variable,
+wrap the name of the variable in a TokenEnvironmentVariable class. If the token is contained within a file,
+wrap the File in a TokenFile class.</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="get-o-auth2-token.html">getOAuth2Token</a></h4>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getOAuth2Token</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../-token-environment-variable/index.html">TokenEnvironmentVariable</a></h4>
+</td>
+<td>
+<p>Holds the name of an environment variable which holds an oauth2 token</p>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">TokenEnvironmentVariable</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">APITokenProvider</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="../-token-file/index.html">TokenFile</a></h4>
+</td>
+<td>
+<p>Holds the file containing an oauth2 token</p>
+<code><span class="keyword">class </span><span class="identifier">TokenFile</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">APITokenProvider</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
