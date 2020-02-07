@@ -1,6 +1,5 @@
 package contint
 
-import java.io.File
 
 interface CommitStatusGeneratorInterface {
     fun generateCStatus(jsonBuild : String) : CStatus
