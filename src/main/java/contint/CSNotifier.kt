@@ -41,6 +41,8 @@ class TokenFile(private val fileName : String) : APITokenProvider {
 
     /**
      * Read contents of the associated file
+     *
+     * @return Contents of file or null if unable to read or open file
      */
     override fun getOAuth2Token(): String? = try {
         File(fileName).readText()

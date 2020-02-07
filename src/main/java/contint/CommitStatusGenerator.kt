@@ -9,13 +9,15 @@ import java.io.File
 class CommitStatusGenerator : CommitStatusGeneratorInterface {
 
     /**
-     * @param jsonBuild Path to a file containing output of gradle build --scan
+     * @param jsonBuildFilePath Path to a file containing output of gradle build
+     *                          The JSON must contain the fields success (boolean),
+     *                          url (string) and commit (string)
      *
      * @return A CStatus representing the commit status to be sent based on the build data
      */
-    override fun generateCStatus(jsonBuild : String): CStatus {
+    override fun generateCStatus(jsonBuildFilePath : String): CStatus {
         val gson = Gson()
-        val jsonString = File(jsonBuild).readText()
+        val jsonString = File(jsonBuildFilePath).readText()
         val data = gson.fromJson(jsonString, Response::class.java)
         return CStatus(toState(data), data.commit, data.url, generateDescription(data))
     }

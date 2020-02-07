@@ -13,7 +13,6 @@ import java.nio.file.Paths
  */
 class GitHandler : GitHandlerInterface {
     private var tmpDir : File? = null
-    val defaultURI = "https://github.com/dd2480-12/dd2480-contint.git"
 
     /**
      * Clone a branch of a GitHub repository into a temporary folder.
