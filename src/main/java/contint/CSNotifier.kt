@@ -1,43 +1,10 @@
 package contint
 
-import org.eclipse.egit.github.core.CommitStatus
 import org.eclipse.egit.github.core.RepositoryId
 import org.eclipse.egit.github.core.client.GitHubClient
 import org.eclipse.egit.github.core.service.CommitService
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.IOException
-
-/**
- * Represents a commit status that is yet to be sent. Used by CINotifier.
- */
-class CStatus(
-        val state: CState,
-        val commitSHA: String,
-        val logURL: String?,
-        val description: String?) {
-
-    constructor(response : Response, description: String?) : this(
-            if (response.success) CState.SUCCESS else CState.ERROR,
-            response.commit,
-            response.url,
-            description)
-
-
-    enum class CState {
-        ERROR, FAILURE, PENDING, SUCCESS;
-
-        override fun toString() = super.toString().toLowerCase()
-    }
-
-    /**
-     * @return The CommitStatus object that corresponds to this object
-     */
-    fun toCommitStatus(): CommitStatus = CommitStatus()
-            .setState(state.toString())
-            .setTargetUrl(logURL)
-            .setDescription(description)
-}
 
 /**
  *  Wrapper for RepositoryId class. The only function of this class is to enable default values for name
@@ -48,7 +15,7 @@ class Repo(owner: String = "dd2480-12", repoName: String = "dd2480-contint") : R
 /**
  * Interface for wrapper classes for an oauth2 token. If the token is contained within an environment variable,
  * wrap the name of the variable in a TokenEnvironmentVariable class. If the token is contained within a file,
- * wrap the name of the file in a TokenFile class.
+ * wrap the File in a TokenFile class.
  */
 interface APITokenProvider {
     fun getOAuth2Token(): String?
@@ -58,32 +25,41 @@ interface APITokenProvider {
  * Holds the name of an environment variable which holds an oauth2 token
  */
 data class TokenEnvironmentVariable(private val varName: String) : APITokenProvider {
+
+    /**
+     * Read environment variable
+     *
+     * @return Value of environment variable or null if variable does not exist
+     */
     override fun getOAuth2Token(): String? = System.getenv(varName)
 }
 
 /**
- * Holds the path to an file containing an oauth2 token
+ * Holds the file containing an oauth2 token
  */
-class TokenFile(private val filePath : String) : APITokenProvider {
+class TokenFile(private val fileName : String) : APITokenProvider {
+
+    /**
+     * Read contents of the associated file
+     */
     override fun getOAuth2Token(): String? = try {
-        File(filePath).bufferedReader().use { it.readText() }
-    } catch  (e : FileNotFoundException) {
+        File(fileName).readText()
+    } catch  (e : Throwable) {
+        println("Warning: Unable to read token: $e")
         null
     }
 }
 
-
-/**
- * Posts commit statuses to the given repository on GitHub
- */
-class CINotifier(private val repo: Repo) {
+class CSNotifier(private val repo: Repo) : CSNotifierInterface {
 
     /**
+     * Post a commit status to GitHub
+     *
      * @param cs The commit status to be sent
      * @param tokenProvider Wrapper of an oauth2 token
      * @return Whether the operation was successful or not
      */
-    fun postCommitStatus(cs: CStatus, tokenProvider: APITokenProvider): Boolean {
+    override fun postCommitStatus(cs: CStatus, tokenProvider: APITokenProvider): Boolean {
         val authToken = tokenProvider.getOAuth2Token()
         if (authToken == null) {
             println("Error: authentication token is null")
@@ -118,4 +94,3 @@ class CINotifier(private val repo: Repo) {
     private fun validSHA(commit: String) =
             commit.matches("^[a-fA-F0-9]{7,40}\$".toRegex())
 }
-

@@ -6,24 +6,39 @@ import org.junit.Assert.*
 
 class CStatusTest {
 
+    /*
+     * Test that the returned CommitStatus correctly represents the CStatus object
+     */
     @Test
     fun toCommitStatus() {
-        val r = Response()
-        r.url = "url"
-        r.success = false
-        r.commit = "sha"
+        val url = "url"
+        val commit = "sha"
 
-        val cs = CStatus(r, null)
-        assertEquals(cs.logURL, r.url)
-        assertEquals(cs.commitSHA, r.commit)
-        assertEquals(cs.state, CStatus.CState.ERROR)
+        val cs = CStatus(CStatus.CState.SUCCESS, commit, url, null).toCommitStatus()
+
+        // targetURL and description should be same as given to constructor
+
+        assertEquals(url, cs.targetUrl)
         assertNull(cs.description)
+        // SUCCESS enum should be mapped to "success"
+        assertEquals(cs.state, "success")
 
-        r.success = true
-        val cs2 = CStatus(r, "desc")
-        assertEquals(cs2.logURL, r.url)
-        assertEquals(cs2.commitSHA, r.commit)
-        assertEquals(cs2.state, CStatus.CState.SUCCESS)
+
+        val cs2 = CStatus(CStatus.CState.ERROR, commit, url, "desc").toCommitStatus()
+
+        // ERROR enum should be mapped to "error"
+        assertEquals(cs2.state, "error")
+        // description should be same as given to constructor
         assertEquals(cs2.description, "desc")
+
+        val cs3 = CStatus(CStatus.CState.PENDING, commit, null, null).toCommitStatus()
+        val cs4 = CStatus(CStatus.CState.FAILURE, commit, null, null).toCommitStatus()
+
+        // targetURL should be same as given to constructor
+        assertNull(cs3.targetUrl)
+
+        assertEquals(cs3.state, "pending")
+        assertEquals(cs4.state, "failure")
+
     }
 }
